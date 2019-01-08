@@ -3,6 +3,7 @@ import * as List from './components/List';
 import * as Drawer from './components/Drawer';
 
 export * from './types';
+export * from './components/ActivityIndicator';
 export * from './components/Appbar';
 export * from './components/Banner';
 export * from './components/BottomNavigation';

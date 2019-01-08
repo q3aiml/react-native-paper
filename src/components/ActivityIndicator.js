@@ -17,11 +17,12 @@ type Props = {|
   /**
    * Size of the indicator.
    */
-  size?: 'small' | 'large' | number,
+  size: 'small' | 'large' | number,
   /**
    * Whether the indicator should hide when not animating.
    */
   hidesWhenStopped: boolean,
+  style?: any,
   /**
    * @optional
    */
@@ -30,7 +31,6 @@ type Props = {|
 
 type State = {
   timer: Animated.Value,
-  rotation: ?any,
   fade: Animated.Value,
 };
 
@@ -41,7 +41,7 @@ const DURATION = 2400;
  * It can be used as a drop-in for the ActivityIndicator shipped with React Native.
  *
  * <div class="screenshots">
- *   <img src="screenshots/activity-indicator.png" />
+ *   <img src="screenshots/activity-indicator.gif" style="width: 100px;" />
  * </div>
  *
  * ## Usage
@@ -65,14 +65,26 @@ class ActivityIndicator extends React.Component<Props, State> {
 
   state = {
     timer: new Animated.Value(0),
-    rotation: null,
     fade: new Animated.Value(
       !this.props.animating && this.props.hidesWhenStopped ? 0 : 1
     ),
   };
 
+  rotation = null;
+
   componentDidMount() {
     const { animating } = this.props;
+    const { timer } = this.state;
+
+    // Circular animation in loop
+    this.rotation = Animated.timing(timer, {
+      duration: DURATION,
+      easing: Easing.linear,
+      // Animated.loop does not work if useNativeDriver is true on web
+      useNativeDriver: Platform.OS !== 'web',
+      isInteraction: true,
+      toValue: 1,
+    });
 
     if (animating) {
       this.startRotation();
@@ -108,26 +120,17 @@ class ActivityIndicator extends React.Component<Props, State> {
     }).start();
 
     // Circular animation in loop
-    const rotation = Animated.timing(timer, {
-      duration: DURATION,
-      easing: Easing.linear,
-      // Animated.loop does not work if useNativeDriver is true on web
-      useNativeDriver: Platform.OS !== 'web',
-      isInteraction: true,
-      toValue: 1,
-    });
-    Animated.loop(rotation).start();
-
-    this.setState({
-      rotation,
-    });
+    if (this.rotation) {
+      timer.setValue(0);
+      // $FlowFixMe
+      Animated.loop(this.rotation).start();
+    }
   }
 
   stopRotation() {
-    const { rotation } = this.state;
-
-    rotation.stop();
-    this.setState({ rotation: null });
+    if (this.rotation) {
+      this.rotation.stop();
+    }
   }
 
   render() {
@@ -158,11 +161,8 @@ class ActivityIndicator extends React.Component<Props, State> {
     };
 
     return (
-      <Animated.View
-        style={[styles.container, { opacity: fade }, style]}
-        {...rest}
-      >
-        <View style={[{ width: size, height: size }]}>
+      <View style={[styles.container, style]} {...rest}>
+        <Animated.View style={[{ width: size, height: size, opacity: fade }]}>
           {[0, 1].map(index => {
             // Thanks to https://github.com/n4kz/react-native-indicators for the great work
             const inputRange = Array.from(
@@ -242,15 +242,14 @@ class ActivityIndicator extends React.Component<Props, State> {
               </Animated.View>
             );
           })}
-        </View>
-      </Animated.View>
+        </Animated.View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -44,14 +44,20 @@ class ActivityIndicatorExample extends React.Component<Props, State> {
 
         <View style={styles.row}>
           <ActivityIndicator animating={this.state.animating} />
+        </View>
 
+        <View style={styles.row}>
           <ActivityIndicator
             animating={this.state.animating}
             hidesWhenStopped={false}
           />
+        </View>
 
+        <View style={styles.row}>
           <ActivityIndicator animating={this.state.animating} size="large" />
+        </View>
 
+        <View style={styles.row}>
           <ActivityIndicator
             animating={this.state.animating}
             color={Colors.red500}
@@ -71,6 +77,7 @@ const styles = StyleSheet.create({
   row: {
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 10,
   },
 });
 
