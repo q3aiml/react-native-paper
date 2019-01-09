@@ -82,7 +82,6 @@ class ActivityIndicator extends React.Component<Props, State> {
       easing: Easing.linear,
       // Animated.loop does not work if useNativeDriver is true on web
       useNativeDriver: Platform.OS !== 'web',
-      isInteraction: true,
       toValue: 1,
     });
 
@@ -103,6 +102,7 @@ class ActivityIndicator extends React.Component<Props, State> {
         Animated.timing(fade, {
           duration: 200,
           toValue: 0,
+          useNativeDriver: true,
         }).start(this.stopRotation.bind(this));
       } else {
         this.stopRotation();
