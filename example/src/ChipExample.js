@@ -20,7 +20,12 @@ class ChipExample extends React.Component<Props> {
       >
         <List.Section title="Flat chip">
           <View style={styles.row}>
-            <Chip onPress={() => {}} style={styles.chip}>
+            <Chip
+              mode="outlined"
+              selected
+              onPress={() => {}}
+              style={styles.chip}
+            >
               Simple
             </Chip>
             <Chip onPress={() => {}} onClose={() => {}} style={styles.chip}>
@@ -64,6 +69,14 @@ class ChipExample extends React.Component<Props> {
               style={styles.chip}
             >
               Avatar (disabled)
+            </Chip>
+            <Chip
+              selected
+              onPress={() => {}}
+              style={styles.chip}
+              selectedColor="#00796b"
+            >
+              Custom selected color
             </Chip>
           </View>
         </List.Section>
@@ -122,6 +135,15 @@ class ChipExample extends React.Component<Props> {
               style={styles.chip}
             >
               Avatar (disabled)
+            </Chip>
+            <Chip
+              selected
+              mode="outlined"
+              onPress={() => {}}
+              style={styles.chip}
+              selectedColor="#00796b"
+            >
+              Custom selected color
             </Chip>
           </View>
         </List.Section>

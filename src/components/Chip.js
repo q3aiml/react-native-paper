@@ -42,6 +42,14 @@ type Props = React.ElementConfig<typeof Surface> & {|
    */
   selected?: boolean,
   /**
+   * Whether to style the chip background color as selected.
+   */
+  selectedColor?: string,
+  /**
+   * Whether to style the chip text color as selected.
+   */
+  selectedTextColor?: string,
+  /**
    * Whether the chip is disabled. A disabled chip is greyed out and `onPress` is not called on touch.
    */
   disabled?: boolean,
@@ -137,6 +145,8 @@ class Chip extends React.Component<Props, State> {
       style,
       theme,
       testID,
+      selectedColor,
+      selectedTextColor,
       ...rest
     } = this.props;
     const { dark, colors } = theme;
@@ -151,24 +161,29 @@ class Chip extends React.Component<Props, State> {
 
     const borderColor =
       mode === 'outlined'
-        ? color(dark ? white : black)
+        ? color(selectedColor || color(dark ? white : black))
             .alpha(0.29)
             .rgb()
             .string()
         : backgroundColor;
     const textColor = disabled
       ? colors.disabled
-      : color(colors.text)
+      : (selectedTextColor
+          ? color(selectedTextColor)
+          : color(selectedColor) || color(colors.text)
+        )
           .alpha(0.87)
           .rgb()
           .string();
     const iconColor = disabled
       ? colors.disabled
-      : color(colors.text)
+      : (color(selectedColor) || color(colors.text))
           .alpha(0.54)
           .rgb()
           .string();
-    const selectedBackgroundColor = color(dark ? white : black)
+    const selectedBackgroundColor = (
+      color(selectedColor) || color(dark ? white : black)
+    )
       .alpha(mode === 'outlined' ? 0.12 : 0.24)
       .rgb()
       .string();
