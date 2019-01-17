@@ -4,6 +4,8 @@ import { ThemeShape } from '../types';
 export interface ProgressBarProps {
   progress: number;
   color?: string;
+  indeterminate?: boolean;
+  animating?: boolean;
   style?: any;
   theme?: ThemeShape;
 }
