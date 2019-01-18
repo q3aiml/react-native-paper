@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ThemeShape } from '../types';
 
 export interface ProgressBarProps {
-  progress: number;
+  progress?: number;
   color?: string;
   indeterminate?: boolean;
   animating?: boolean;
