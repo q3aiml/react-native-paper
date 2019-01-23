@@ -120,6 +120,7 @@ class ActivityIndicator extends React.Component<Props, State> {
       duration: 200,
       toValue: 1,
       isInteraction: false,
+      useNativeDriver: true,
     }).start();
 
     // Circular animation in loop
