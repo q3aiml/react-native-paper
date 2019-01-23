@@ -5,6 +5,8 @@ import { FlatList } from 'react-native';
 import { List, Divider, withTheme, type Theme } from 'react-native-paper';
 import ActivityIndicatorExample from './ActivityIndicatorExample';
 import AppbarExample from './AppbarExample';
+import AvatarExample from './AvatarExample';
+import BadgeExample from './BadgeExample';
 import BannerExample from './BannerExample';
 import BottomNavigationExample from './BottomNavigationExample';
 import ButtonExample from './ButtonExample';
@@ -38,6 +40,8 @@ type Props = {
 export const examples = {
   activityIndicator: ActivityIndicatorExample,
   appbar: AppbarExample,
+  avatar: AvatarExample,
+  badge: BadgeExample,
   banner: BannerExample,
   bottomNavigation: BottomNavigationExample,
   button: ButtonExample,
